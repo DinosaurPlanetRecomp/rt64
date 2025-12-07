@@ -106,8 +106,9 @@ namespace RT64 {
         }
         case UserConfiguration::GraphicsAPI::Vulkan: {
             VulkanDevice *interfaceDevice = static_cast<VulkanDevice *>(device);
+            uint32_t vkApiVersion = interfaceDevice->renderInterface->appInfo.apiVersion;
             const VulkanSwapChain *interfaceSwapChain = static_cast<const VulkanSwapChain *>(swapChain);
-            ImGui_ImplVulkan_LoadFunctions([](const char *functionName, void *vulkanInstance) {
+            ImGui_ImplVulkan_LoadFunctions(vkApiVersion, [](const char *functionName, void *vulkanInstance) {
                 return vkGetInstanceProcAddr(*(reinterpret_cast<VkInstance *>(vulkanInstance)), functionName);
             }, &interfaceDevice->renderInterface->instance);
 
